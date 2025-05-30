@@ -3,18 +3,20 @@ document.getElementById("searchBtn").addEventListener("click", () => {
   const container = document.getElementById("results");
 
   if (!query) {
-    container.innerHTML = "<p>検索語を入力してください。</p>";
+    container.innerHTML = "<p>⚠️ 検索語を入力してください。</p>";
     return;
   }
+
+  // 👉 検索中メッセージ表示
+  container.innerHTML = "<p>🔍 ニュースを探しています...</p>";
 
   const apiUrl = `https://news-match-api.maisugimoto2003.workers.dev/api/nearest-news?text=${encodeURIComponent(query)}&limit=5`;
 
   fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
-      console.log("🎯 API結果:", data);
-      if (data.matches.length === 0) {
-        container.innerHTML = `<p>関連ニュースは見つかりませんでした。</p>`;
+      if (!data.matches || data.matches.length === 0) {
+        container.innerHTML = `<p>🫥 関連ニュースは見つかりませんでした。</p>`;
       } else {
         container.innerHTML = data.matches.map(match => `
           <div class="card">
@@ -26,6 +28,6 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     })
     .catch(err => {
       console.error("⚠️ API呼び出し失敗", err);
-      container.innerHTML = "<p>エラーが発生しました。</p>";
+      container.innerHTML = "<p>🚨 エラーが発生しました。しばらくしてからお試しください。</p>";
     });
 });
