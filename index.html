@@ -2,14 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ニュース検索</title>
+  <title>ニュース関連検索</title>
 </head>
 <body>
-  <h1>ニュース検索</h1>
-  <input type="text" id="queryInput" placeholder="検索語を入力" />
-  <button id="searchBtn">関連ニュースを見る</button>
-  <div id="results"></div>
+  <h2>日記を入力してください</h2>
+  <textarea id="diary" rows="5" cols="40" placeholder="例：最近お米が高くて買うのをやめました。"></textarea>
+  <br />
+  <button onclick="searchNews()">関連ニュースを見る</button>
 
-  <script src="script.js"></script>
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script src="https://ruchia2025.github.io/news-match-ui/script.js"></script>
 </body>
 </html>
