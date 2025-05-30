@@ -7,7 +7,6 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     return;
   }
 
-  // 👉 検索中メッセージ表示
   container.innerHTML = "<p>🔍 ニュースを探しています...</p>";
 
   const apiUrl = `https://news-match-api.maisugimoto2003.workers.dev/api/nearest-news?text=${encodeURIComponent(query)}&limit=5`;
