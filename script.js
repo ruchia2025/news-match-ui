@@ -1,32 +1,33 @@
-document.getElementById("searchBtn").addEventListener("click", () => {
-  const query = document.getElementById("queryInput").value.trim();
-  const container = document.getElementById("results");
+async function searchNews() {
+  const text = document.getElementById('diary').value;
+  const resultDiv = document.getElementById('result');
 
-  if (!query) {
-    container.innerHTML = "<p>⚠️ 検索語を入力してください。</p>";
+  if (!text.trim()) {
+    resultDiv.innerHTML = '⚠️ 入力してください。';
     return;
   }
 
-  container.innerHTML = "<p>🔍 ニュースを探しています...</p>";
+  resultDiv.innerHTML = '🔍 検索中...';
 
-  const apiUrl = `https://news-match-api.maisugimoto2003.workers.dev/api/nearest-news?text=${encodeURIComponent(query)}&limit=5`;
+  try {
+    const response = await fetch(
+      'https://news-match-api.maisugimoto2003.workers.dev/api/nearest-news?text=' + encodeURIComponent(text)
+    );
+    const data = await response.json();
+    resultDiv.innerHTML = '';
 
-  fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.matches || data.matches.length === 0) {
-        container.innerHTML = `<p>🫥 関連ニュースは見つかりませんでした。</p>`;
-      } else {
-        container.innerHTML = data.matches.map(match => `
-          <div class="card">
-            <h3>${match.title}</h3>
-            <p>${match.body.substring(0, 120)}...</p>
-          </div>
-        `).join('');
-      }
-    })
-    .catch(err => {
-      console.error("⚠️ API呼び出し失敗", err);
-      container.innerHTML = "<p>🚨 エラーが発生しました。しばらくしてからお試しください。</p>";
+    if (data.matches.length === 0) {
+      resultDiv.textContent = '関連ニュースは見つかりませんでした。';
+      return;
+    }
+
+    data.matches.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = `<strong>${item.title}</strong><br><p>${item.body.slice(0, 100)}...</p><hr/>`;
+      resultDiv.appendChild(div);
     });
-});
+  } catch (error) {
+    console.error("⚠️ API呼び出し失敗", error);
+    resultDiv.innerHTML = '⚠️ エラーが発生しました。';
+  }
+}
