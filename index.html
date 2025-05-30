@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>日記ニュース連携</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>ニュース検索</title>
 </head>
 <body>
-  <h1>日記からニュースを探す</h1>
-  <textarea id="diary" rows="10" cols="50" placeholder="今日の出来事を書いてください"></textarea>
-  <br />
-  <button onclick="searchNews()">関連ニュースを見る</button>
+  <h1>日記からニュースを検索</h1>
 
-  <h2>関連ニュース</h2>
-  <div id="result"></div>
+  <textarea id="queryInput" rows="5" cols="40" placeholder="ここに日記を入力してください"></textarea>
+  <br />
+  <button id="searchBtn">検索</button>
+
+  <div id="results"></div>
 
   <script src="script.js"></script>
 </body>
